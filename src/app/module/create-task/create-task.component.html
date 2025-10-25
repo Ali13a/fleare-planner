@@ -1,0 +1,16 @@
+<div class="container"> ⚠
+  <div class="row">
+    <h3 class="head">
+      Create Task ...
+    </h3>
+    <app-form-builder-new
+      saveButtonName="Create Task"
+      [items]='formItem'
+      buttonWidth='30%'
+      [patchValue]='data'
+      [fixedButton]="false"
+      [callerStatus]='callerStatus'
+      (formResult)='addTask($event)'>
+    </app-form-builder-new>
+  </div>
+</div>

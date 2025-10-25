@@ -1,0 +1,112 @@
+<div class="container">
+  <div class="row">
+    <h1>
+      Tasks List
+    </h1>
+
+    <div class="search-box mx-auto">
+      <button mat-icon-button class="icon-btn" (click)="toggleSearch()">
+        <mat-icon class="icon">search</mat-icon>
+      </button>
+
+      <input
+        type="text"
+        matInput
+        class="search-input"
+        placeholder="Search ..."
+        [(ngModel)]="searchText"
+        (input)="searchTask(searchText)"
+        [class.open]="showInput"
+      />
+    </div>
+
+
+    <div class="timeline-container" *ngIf="!searchText; else showSearchResults">
+    <div *ngFor="let task of tasks; let i = index" class="timeline-item"
+         [ngClass]="{ 'left': i % 2 === 0, 'right': i % 2 !== 0 }">
+
+      <div class="timeline-content">
+        <div class="timeline-card" (click)="task.expanded = !task.expanded">
+
+          <div class="header">
+            <div class="time">{{ task.due_date | date:"HH:mm" }}</div>
+
+            <div class="title">
+              <span class="material-icons tag-icon"
+                    [ngClass]="task.tags">
+                  {{ task.tags === 'administrative' ? 'business_center' : 'task' }}
+                </span>
+              <div class="title">{{ task.title }}</div>
+
+            </div>
+          </div>
+
+          <div class="actions">
+            <a mat-icon-button aria-label="Edit" class="text-warning" [routerLink]="[task.id]">
+            <mat-icon>edit</mat-icon>
+            </a>
+
+            <a mat-icon-button aria-label="Delete" class="text-danger" (click)="deleteTask(task.id)">
+              <mat-icon>delete</mat-icon>
+            </a>
+
+          </div>
+
+
+          <div class="desc" *ngIf="task.expanded">
+            {{ task.description || 'توضیحاتی ثبت نشده' }}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #showSearchResults>
+    <div class="timeline-container">
+      <div *ngFor="let task of findTasks; let i = index" class="timeline-item"
+           [ngClass]="{ 'left': i % 2 === 0, 'right': i % 2 !== 0 }">
+
+        <div class="timeline-content">
+          <div class="timeline-card" (click)="task.expanded = !task.expanded">
+
+            <div class="header">
+              <div class="time">{{ task.due_date | date:"HH:mm" }}</div>
+
+              <div class="title">
+              <span class="material-icons tag-icon"
+                    [ngClass]="task.tags">
+                  {{ task.tags === 'administrative' ? 'business_center' : 'task' }}
+                </span>
+                <div class="title">{{ task.title }}</div>
+
+              </div>
+            </div>
+
+            <div class="actions">
+              <a mat-icon-button aria-label="Edit" class="text-warning" [routerLink]="[task.id]">
+
+              <mat-icon>edit</mat-icon>
+              </a>
+
+              <a mat-icon-button aria-label="Delete" class="text-danger" (click)="deleteTask(task.id)">
+                <mat-icon>delete</mat-icon>
+              </a>
+
+            </div>
+
+
+            <div class="desc" *ngIf="task.expanded">
+              {{ task.description || 'توضیحاتی ثبت نشده' }}
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-template>
+</div>
+</div>
+

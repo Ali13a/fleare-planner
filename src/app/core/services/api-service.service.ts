@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, retry} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +9,38 @@ export class ApiServiceService {
 
   private headers = new HttpHeaders();
 
-  constructor(private http: HttpClient) { }
-
-  get(path: string): Observable<any> {
-    return this.http.get(path, {headers: this.headers})
+  constructor(private http: HttpClient) {
   }
 
-  post(id: number, path: string, body: any): Observable<any> {
-    return this.http.post(`${path}${id}`, body, {headers: this.headers})
+  get(path: string, headers?: any): Observable<any> {
+    return this.http.get(path, {headers: headers}).pipe(
+      retry(0)
+    );
   }
 
-  put(path: string, body: any): Observable<any> {
-    return this.http.put(path, body, {headers: this.headers})
+  post(path: string, body?: any, headers?: any): Observable<any> {
+    return this.http.post(path, body, {headers: headers}).pipe(
+      retry(0)
+    );
   }
 
-  delete(id: number, path: string):Observable<any> {
-    return this.http.delete(`${path}${id}`, {headers: this.headers})
+  patch(path: string, body?: any, headers?: any): Observable<any> {
+    return this.http.patch(path, body, {headers: headers}).pipe(
+      retry(0)
+    );
   }
+
+  put(path: string, body: any, headers?: any): Observable<any> {
+    return this.http.put(path, body, {headers: headers}).pipe(
+      retry(0)
+    );
+  }
+
+  delete(path: string, headers?: any): Observable<any> {
+    return this.http.delete(path, {headers: headers}).pipe(
+      retry(0)
+    );
+  }
+
+
 }

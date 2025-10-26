@@ -4,7 +4,7 @@ import {DatePipe, NgClass, NgForOf, NgIf, NgStyle} from '@angular/common';
 import {TimelineModule} from 'primeng/timeline';
 import {CardModule} from 'primeng/card';
 import {RouterLink} from '@angular/router';
-import {MatIconAnchor, MatIconButton} from '@angular/material/button';
+import {MatFabButton, MatIconAnchor, MatIconButton} from '@angular/material/button';
 import {MatInput} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
@@ -25,7 +25,8 @@ import {MatDialogComponent} from '../../share/components/mat-dialog/mat-dialog.c
     MatIcon,
     FormsModule,
     MatInput,
-    MatIconAnchor
+    MatIconAnchor,
+    MatFabButton
   ],
   templateUrl: './tasks-list.component.html',
   styleUrl: './tasks-list.component.css'

@@ -84,6 +84,13 @@ export class EditTaskComponent {
       validators: [Validators.required],
       classList: 'col-12 col-md-12 pt-3',
     },
+    {
+      type: 'toggle',
+      label: 'Finished',
+      formControlName: 'is_complete',
+      validators: [],
+      classList: 'col-12 col-md-8 pt-3',
+    },
   ];
 
   constructor(

@@ -248,7 +248,13 @@ export class FormBuilderNewComponent implements OnInit, OnChanges {
         this.isFormData = (field.type === 'image' || this.isFormData);
         const validators = this.setValidators(field.validators);
         // const value = JSON.parse(JSON.stringify(field?.default || (field?.type === 'file' && field?.isFile) ? JSON.stringify([]) : ''));
-        const value = JSON.parse(JSON.stringify(field?.default || ''));
+        // const value = JSON.parse(JSON.stringify(field?.default || ''));
+        let value = field?.default;
+
+
+        if (field?.type === 'toggle') {
+          value = false;
+        }
         if (field?.type === 'file' && field?.isFile) {
           // if (field?.default && !Array.isArray(field?.default)) field.default = [field?.default];
           // this.files[field.formControlName] = new Set(field?.default || []);

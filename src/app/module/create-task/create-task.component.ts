@@ -78,6 +78,14 @@ export class CreateTaskComponent {
       validators: [Validators.required],
       classList: 'col-12 col-md-8 pt-3',
     },
+    {
+      type: 'toggle',
+      label: 'Finished',
+      formControlName: 'is_complete',
+      defaulValue: false,
+      validators: [],
+      classList: 'col-12 col-md-8 pt-3',
+    },
   ];
 
   constructor(

@@ -12,92 +12,72 @@
       <input
         type="text"
         matInput
-        class="search-input"
-        placeholder="Search ..."
         [(ngModel)]="searchText"
-        (input)="searchTask(searchText)"
-        [class.open]="showInput"
+        placeholder="Search ..."
+        class="search-input"
+        [class.open]="isOpen"
       />
+
+      <button
+        mat-button
+        (click)="searchTask(searchText)"
+        class="btn-input"
+        [class.open]="isOpen"
+      >
+        Search
+      </button>
     </div>
 
 
     <div class="timeline-container" *ngIf="!searchText; else showSearchResults">
-    <div *ngFor="let task of tasks; let i = index" class="timeline-item"
-         [ngClass]="{ 'left': i % 2 === 0, 'right': i % 2 !== 0 }">
-
-      <div class="timeline-content">
-        <div class="timeline-card" (click)="task.expanded = !task.expanded">
-
-          <div class="header">
-            <div class="time">{{ task.due_date | date:"HH:mm" }}</div>
-
-            <div class="title">
-              <span class="material-icons tag-icon"
-                    [ngClass]="task.tags">
-                  {{ task.tags === 'administrative' ? 'business_center' : 'task' }}
-                </span>
-              <div class="title">{{ task.title }}</div>
-
-            </div>
-          </div>
-
-          <div class="actions">
-            <a mat-icon-button aria-label="Edit" class="text-warning" [routerLink]="[task.id]">
-            <mat-icon>edit</mat-icon>
-            </a>
-
-            <a mat-icon-button aria-label="Delete" class="text-danger" (click)="deleteTask(task.id)">
-              <mat-icon>delete</mat-icon>
-            </a>
-
-          </div>
-
-
-          <div class="desc" *ngIf="task.expanded">
-            {{ task.description || 'توضیحاتی ثبت نشده' }}
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <ng-template #showSearchResults>
-    <div class="timeline-container">
-      <div *ngFor="let task of findTasks; let i = index" class="timeline-item"
+      <div *ngFor="let task of tasks; let i = index" class="timeline-item"
            [ngClass]="{ 'left': i % 2 === 0, 'right': i % 2 !== 0 }">
 
         <div class="timeline-content">
-          <div class="timeline-card" (click)="task.expanded = !task.expanded">
+          <div class="timeline-card" (click)="task.expanded = !task.expanded"
+               [ngClass]="{ 'completed-text': task.is_complete }">
 
             <div class="header">
               <div class="time">{{ task.due_date | date:"HH:mm" }}</div>
 
               <div class="title">
-              <span class="material-icons tag-icon"
-                    [ngClass]="task.tags">
-                  {{ task.tags === 'administrative' ? 'business_center' : 'task' }}
-                </span>
-                <div class="title">{{ task.title }}</div>
+              <span class="tag-icon"
+                    [ngClass]="task.tags === 'administrative' ? 'admin' : 'normal'">
+                        {{ task.tags === 'administrative' ? 'work_history' : 'checklist' }}
+              </span>
+
+                <div class="title-text">
+                  {{ task.title }}
+                </div>
 
               </div>
             </div>
 
-            <div class="actions">
-              <a mat-icon-button aria-label="Edit" class="text-warning" [routerLink]="[task.id]">
+            <div [ngClass]="{ 'mmd': task.is_complete }">
 
-              <mat-icon>edit</mat-icon>
+            </div>
+
+            <div class="actions">
+              <a *ngIf="!task.is_complete"
+                 mat-icon-button
+                 aria-label="Edit"
+                 class="text-warning"
+                 [routerLink]="[task.id]">
+                <mat-icon>edit</mat-icon>
               </a>
 
               <a mat-icon-button aria-label="Delete" class="text-danger" (click)="deleteTask(task.id)">
                 <mat-icon>delete</mat-icon>
               </a>
 
+              <div class="status-icon" [ngClass]="{ 'completed': task.is_complete }">
+                <mat-icon>{{ task.is_complete ? 'check_circle' : 'cancel' }}</mat-icon>
+              </div>
+
             </div>
 
 
-            <div class="desc" *ngIf="task.expanded">
+            <div class="desc" [ngClass]="{ 'show': task.expanded }">
               {{ task.description || 'توضیحاتی ثبت نشده' }}
             </div>
 
@@ -106,8 +86,66 @@
 
       </div>
     </div>
-  </ng-template>
-</div>
+
+    <ng-template #showSearchResults>
+      <div class="timeline-container">
+        <div *ngFor="let task of findTasks; let i = index" class="timeline-item"
+             [ngClass]="{ 'left': i % 2 === 0, 'right': i % 2 !== 0 }">
+
+          <div class="timeline-content">
+            <div class="timeline-card" (click)="task.expanded = !task.expanded"
+                 [ngClass]="{ 'completed-text': task.is_complete }">
+
+              <div class="header"
+                   [ngClass]="{ 'mmd': task.is_complete }">
+                <div class="time">{{ task.due_date | date:"HH:mm" }}</div>
+
+                <div class="title">
+              <span class="tag-icon"
+                    [ngClass]="task.tags === 'administrative' ? 'admin' : 'normal'">
+                        {{ task.tags === 'administrative' ? 'work_history' : 'checklist' }}
+              </span>
+                  <div class="title-text">
+                    {{ task.title }}
+                  </div>
+
+
+                </div>
+              </div>
+
+              <div class="actions">
+                <a *ngIf="!task.is_complete"
+                   mat-icon-button
+                   aria-label="Edit"
+                   class="text-warning"
+                   [routerLink]="[task.id]">
+                  <mat-icon>edit</mat-icon>
+                </a>
+
+
+                <a mat-icon-button aria-label="Delete" class="text-danger" (click)="deleteTask(task.id)">
+                  <mat-icon>delete</mat-icon>
+                </a>
+
+                <div class="status-icon" [ngClass]="{ 'completed': task.is_complete }">
+                  <mat-icon>{{ task.is_complete ? 'check_circle' : 'cancel' }}</mat-icon>
+                </div>
+
+
+              </div>
+
+
+              <div class="desc" [ngClass]="{ 'show': task.expanded }">
+                {{ task.description || 'توضیحاتی ثبت نشده' }}
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+  </div>
   <div class="pos">
     <button mat-fab extended color="accent" class="my-btn" routerLink="/create">
       <mat-icon>add_2</mat-icon>

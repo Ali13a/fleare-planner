@@ -33,11 +33,12 @@
 }
 
 .timeline-card {
+  position: relative;
   background: #fff;
   padding: 20px 22px;
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid #3e3e3e;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.40);
   width: 100%;
   max-width: 500px;
   cursor: pointer;
@@ -46,7 +47,7 @@
 
 .timeline-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
 }
 
 .header {
@@ -72,6 +73,19 @@
   font-size: 15px;
   color: #555;
   line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .35s ease, opacity .35s ease, transform .35s ease;
+  transform: translateY(-6px);
+  text-align: center;
+  padding: 5px;
+}
+
+.desc.show {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .actions {
@@ -138,7 +152,9 @@
   gap: 8px;
 }
 
-.search-input {
+
+.search-input,
+.btn-input {
   width: 0;
   opacity: 0;
   border: none;
@@ -149,9 +165,16 @@
   padding: 4px 0;
 }
 
-.search-input.open {
+.search-input.open,
+.btn-input.open {
   width: 350px;
   opacity: 1;
+}
+
+.btn-input.open {
+  width: 5%;
+  background: #f8d8e1;
+  color: black;
 }
 
 @media only screen and (max-width: 480px) {
@@ -190,3 +213,75 @@ h1 {
   padding-top: 3rem;
   padding-bottom: 5rem;
 }
+
+.status-icon {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.status-icon mat-icon {
+  font-size: 20px;
+  vertical-align: middle;
+  transition: 0.3s ease;
+  color: #e63946;
+}
+
+.status-icon.completed mat-icon {
+  color: #2ecc71 !important;
+}
+
+.title-text {
+  margin: 2px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.completed-text {
+  opacity: 0.5;
+}
+
+.mmd {
+  position: absolute;
+  width: 105%;
+  left: -15px;
+  height: 2px;
+  background: #000000;
+  content: "";
+}
+
+.text-warning {
+  color: #333333;
+}
+
+.text-danger{
+  color: #a8a8a8;
+}
+
+
+.tag-icon {
+  font-family: "Material Icons";
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  transition: 0.25s ease-in-out;
+}
+
+.tag-icon.admin {
+  background: linear-gradient(135deg, #ff7f50, #ff4500);
+}
+
+.tag-icon.normal {
+  background: linear-gradient(135deg, #4caf50, #007f47);
+}
+
+.completed-text .tag-icon {
+  opacity: 0.5;
+}
+
+

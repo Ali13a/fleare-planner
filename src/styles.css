@@ -12,4 +12,5 @@ app-root {
   display: block;
   background: linear-gradient(140deg, rgba(159, 53, 37, 1) 30%, rgba(170, 112, 42, 1) 100%);
   padding-top: 40px;
+  font-family: "Noto Sans Mro", sans-serif !important;
 }

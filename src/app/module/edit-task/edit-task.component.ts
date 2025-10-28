@@ -3,12 +3,17 @@ import {FormBuilderNewComponent} from '../../share/components/form-builder-new/f
 import {Validators} from '@angular/forms';
 import {EditTaskService} from './edit-task.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {MatFabButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-edit-task',
   imports: [
-    FormBuilderNewComponent
+    FormBuilderNewComponent,
+    MatFabButton,
+    MatIcon,
+    RouterLink,
   ],
   templateUrl: './edit-task.component.html',
   styleUrl: './edit-task.component.css'

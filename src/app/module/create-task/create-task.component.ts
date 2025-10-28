@@ -2,15 +2,19 @@ import { Component } from '@angular/core';
 import {FormBuilderNewComponent} from "../../share/components/form-builder-new/form-builder-new.component";
 import {Validators} from '@angular/forms';
 import {CreateTaskService} from './create-task.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {error} from '@angular/compiler-cli/src/transformers/util';
+import {MatFabButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-create-task',
-    imports: [
-        FormBuilderNewComponent
-    ],
+  imports: [
+    FormBuilderNewComponent,
+    MatFabButton,
+    MatIcon,
+    RouterLink,
+  ],
   templateUrl: './create-task.component.html',
   styleUrl: './create-task.component.css'
 })

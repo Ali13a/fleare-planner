@@ -4,6 +4,15 @@
       Tasks List
     </h1>
 
+    <div class="tab-buttons mx-auto">
+      <button mat-button [color]="currentTab === 'today' ? 'primary' : 'basic'" (click)="currentTab = 'today'"
+              class="btn-day">Today
+      </button>
+      <button mat-button [color]="currentTab === 'tomorrow' ? 'primary' : 'basic'" (click)="currentTab = 'tomorrow'"
+              class="btn-day">Tomorrow
+      </button>
+    </div>
+
     <div class="search-box mx-auto">
       <button mat-icon-button class="icon-btn" (click)="toggleSearch()">
         <mat-icon class="icon">search</mat-icon>
@@ -30,7 +39,7 @@
 
 
     <div class="timeline-container" *ngIf="!searchText; else showSearchResults">
-      <div *ngFor="let task of tasks; let i = index" class="timeline-item"
+      <div *ngFor="let task of getCurrentTasks(); let i = index" class="timeline-item"
            [ngClass]="{ 'left': i % 2 === 0, 'right': i % 2 !== 0 }">
 
         <div class="timeline-content">
@@ -38,7 +47,9 @@
                [ngClass]="{ 'completed-text': task.is_complete }">
 
             <div class="header">
-              <div class="time">{{ task.due_date | date:"HH:mm" }}</div>
+              <div class="time">{{ formatTime(task.due_date) }}
+                - {{ formatTime(addMinutes(task.due_date, task.Time_required || 60)) }}
+              </div>
 
               <div class="title">
               <span class="tag-icon"
@@ -70,7 +81,8 @@
                 <mat-icon>delete</mat-icon>
               </a>
 
-              <div class="status-icon" [ngClass]="{ 'completed': task.is_complete }">
+              <div class="status-icon" [ngClass]="{ 'completed': task.is_complete }"
+                   (click)="toggleComplete(task); $event.stopPropagation()">
                 <mat-icon>{{ task.is_complete ? 'check_circle' : 'cancel' }}</mat-icon>
               </div>
 
@@ -98,7 +110,9 @@
 
               <div class="header"
                    [ngClass]="{ 'mmd': task.is_complete }">
-                <div class="time">{{ task.due_date | date:"HH:mm" }}</div>
+                <div class="time">{{ formatTime(task.due_date) }}
+                  - {{ formatTime(addMinutes(task.due_date, task.Time_required || 60)) }}
+                </div>
 
                 <div class="title">
               <span class="tag-icon"
@@ -127,7 +141,8 @@
                   <mat-icon>delete</mat-icon>
                 </a>
 
-                <div class="status-icon" [ngClass]="{ 'completed': task.is_complete }">
+                <div class="status-icon" [ngClass]="{ 'completed': task.is_complete }"
+                     (click)="toggleComplete(task); $event.stopPropagation()">
                   <mat-icon>{{ task.is_complete ? 'check_circle' : 'cancel' }}</mat-icon>
                 </div>
 
@@ -153,4 +168,3 @@
     </button>
   </div>
 </div>
-

@@ -254,7 +254,7 @@ h1 {
   color: #333333;
 }
 
-.text-danger{
+.text-danger {
   color: #a8a8a8;
 }
 
@@ -268,7 +268,7 @@ h1 {
   align-items: center;
   justify-content: center;
   color: #fff;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   transition: 0.25s ease-in-out;
 }
 
@@ -284,4 +284,14 @@ h1 {
   opacity: 0.5;
 }
 
+.tab-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.btn-day {
+  background: #474747;
+}
 

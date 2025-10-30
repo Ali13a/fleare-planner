@@ -21,7 +21,7 @@ import {MatIcon} from '@angular/material/icon';
 export class EditTaskComponent {
 
   data: any = null;
-  callerStatus: any = { closed: true };
+  callerStatus: any = {closed: true};
 
   formItem: any[] = [
     {
@@ -103,7 +103,8 @@ export class EditTaskComponent {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -119,11 +120,11 @@ export class EditTaskComponent {
   updateTask(event: any): void {
     this.editTaskService.updateTask(this.data.id, event.value).subscribe(
       res => {
-        this.snackBar.open('Task updated successfully', '', { duration: 2000 });
+        this.snackBar.open('Task updated successfully', '', {duration: 2000});
         this.router.navigate(['/tasks']);
       },
       error => {
-        this.snackBar.open('Update failed', '', { duration: 2000 });
+        this.snackBar.open('Update failed', '', {duration: 2000});
       }
     );
   }

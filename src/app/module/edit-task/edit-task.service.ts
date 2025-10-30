@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ApiServiceService} from '../../core/services/api-service.service';
 import {environment} from '../../../environments/environmet';
 
@@ -9,7 +9,8 @@ export class EditTaskService {
 
   apiUrl = 'tasks/update/';
 
-  constructor(private apiService: ApiServiceService) { }
+  constructor(private apiService: ApiServiceService) {
+  }
 
   getTask(id: number) {
     return this.apiService.get(`${environment.path}tasks/${id}`);

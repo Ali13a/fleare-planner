@@ -1,11 +1,32 @@
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatOptionModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {MatChipInput} from "@angular/material/chips";
-
 @Component({
   selector: 'app-form-builder-auto-complete',
+  standalone:true,
   templateUrl: './form-builder-auto-complete.component.html',
-  styleUrls: ['./form-builder-auto-complete.component.scss']
+  styleUrls: ['./form-builder-auto-complete.component.scss'],
+  imports :[
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+  ]
 })
 export class FormBuilderAutoCompleteComponent {
 

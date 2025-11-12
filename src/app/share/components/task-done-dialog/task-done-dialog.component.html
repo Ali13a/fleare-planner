@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>✅ پایان زمان تسک</h2>
+
+<mat-dialog-content>
+  <p><strong>{{ data.title }}</strong></p>
+  <p>زمان تسک تموم شد. آیا انجامش دادی؟</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="missed()">نه هنوز</button>
+  <button mat-flat-button color="primary" (click)="done()">بله، انجام شد</button>
+</mat-dialog-actions>

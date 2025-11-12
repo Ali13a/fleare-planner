@@ -128,4 +128,7 @@ form .card-none mat-card.form-card {
 .mat-mdc-form-field{
   display: flex;
 }
+.tag-icon{
+  justify-content: start;
+}
 

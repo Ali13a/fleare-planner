@@ -8,7 +8,7 @@ export interface Task {
   title: string;
   description?: string | null;
   due_date?: string | null;
-  status?: 'todo' | 'in_progress' | 'done' | 'archived';
+  status?: 'todo' | 'in_progress' | 'done' | 'archived' | 'missed';
   priority?: number;
   tags?: 'administrative' | 'normal';
   Time_required?: number;

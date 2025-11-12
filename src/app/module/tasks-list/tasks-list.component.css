@@ -294,4 +294,9 @@ h1 {
 .btn-day {
   background: #474747;
 }
-
+span.tag-icon.admin{
+  justify-content: right;
+}
+span.tag-icon.normal{
+  justify-content: right;
+}

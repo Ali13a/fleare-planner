@@ -61,6 +61,7 @@ export class EditTaskComponent {
         {name: 'in_progress', value: 'in_progress'},
         {name: 'done', value: 'done'},
         {name: 'archived', value: 'archived'},
+        {name:'missed',value:'missed'}
       ],
       validators: [Validators.required],
       classList: 'col-12 col-md-12 pt-3',

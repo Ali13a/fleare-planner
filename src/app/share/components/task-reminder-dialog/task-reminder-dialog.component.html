@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>⏰ زمان انجام تسک رسید!</h2>
+
+<mat-dialog-content>
+  <p><strong>{{ data.title }}</strong></p>
+  <p>می‌خوای همین الان انجامش بدی یا بعداً؟</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="later()">بعداً</button>
+  <button mat-flat-button color="primary" (click)="startTask()">شروعش کن</button>
+</mat-dialog-actions>

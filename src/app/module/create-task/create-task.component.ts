@@ -54,6 +54,7 @@ export class CreateTaskComponent {
         {name: 'in_progress', value: 'in_progress'},
         {name: 'done', value: 'done'},
         {name: 'archived', value: 'archived'},
+        {name:'missed',value:'missed'}
       ],
       validators: [Validators.required],
       classList: 'col-12 col-md-3 pt-3',

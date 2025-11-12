@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy,OnInit} from '@angular/core';
 import {TasksListService} from './tasks-list.service';
 import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {TimelineModule} from 'primeng/timeline';
@@ -10,6 +10,8 @@ import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
 import {MatDialogComponent} from '../../share/components/mat-dialog/mat-dialog.component';
+import { interval,Subscription } from 'rxjs';
+import { Task } from './tasks-list.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -31,11 +33,15 @@ import {MatDialogComponent} from '../../share/components/mat-dialog/mat-dialog.c
   templateUrl: './tasks-list.component.html',
   styleUrl: './tasks-list.component.css'
 })
-export class TasksListComponent {
+export class TasksListComponent implements OnInit , OnDestroy{
+  private intervalSub!:Subscription;
 
   constructor(private taskService: TasksListService, private dialog: MatDialog) {
   }
-
+  checkInProgressTask:any;
+  checkedInProgress=new Set<number>()
+  dueIntervalId:any;
+  checkedTasks=new Set<number>()
   tasks: any[] = [];
   todayTasks: any[] = [];
   tomorrowTasks: any[] = [];
@@ -48,6 +54,16 @@ export class TasksListComponent {
 
   ngOnInit() {
     this.getTasks();
+    this.checkDueTasks();
+    this.doneInprogress();
+  }
+  ngOnDestroy() {
+    if (this.dueIntervalId){
+      clearInterval(this.dueIntervalId)
+    }
+    if(this.checkInProgressTask){
+      clearInterval(this.checkInProgressTask);
+    }
   }
 
   getTasks() {
@@ -56,7 +72,73 @@ export class TasksListComponent {
       this.separateTasks();
     });
   }
+  checkDueTasks(){
+    this.dueIntervalId=setInterval(() => {
+        const now = new Date().getTime();
 
+        this.tasks.forEach(task => {
+          if (!task.due_date || this.checkedTasks.has(task.id)) return; // اگه قبلاً چک شده بی‌خیال شو
+
+          const dueTime = new Date(task.due_date).getTime();
+
+          // فقط وقتی زمان سر رسیده یا گذشته
+          if (now >= dueTime && (task.status === 'todo' || task.status === 'missed')) {
+            this.checkedTasks.add(task.id); // تا دوباره پاپ‌آپ نیاد
+
+            const dialogRef = this.dialog.open(MatDialogComponent, {
+              width: '400px',
+              data: {
+                title: 'Task Due!',
+                message: `Do you want to start task "${task.title}" now?`,
+              },
+            });
+
+            dialogRef.afterClosed().subscribe((result: boolean) => {
+              const newStatus = result ? 'in_progress' : 'missed';
+
+              this.taskService.updateTask(task.id, { status: newStatus }).subscribe({
+                next: () => {
+                  task.status = newStatus;
+                  console.log(`Task "${task.title}" updated to ${newStatus}`);
+                },
+                error: (err) => {
+                  console.error('Failed to update task:', err);
+                },
+              });
+            });
+          }
+        });
+      }, 5000);
+  }
+  doneInprogress(){
+    this.checkInProgressTask=setInterval(()=>{
+      const now = new Date().getTime();
+      this.tasks.filter(task=>task.status === 'in"_progress' && !this.checkedInProgress.has(task.id)).forEach(task=>{
+        const endTime=new Date(task.due_date).getTime()+(task.Time_required || 60)*60000;
+        if (now>=endTime){
+          this.checkedInProgress.add(task.id);
+          const dialogRef=this.dialog.open(MatDialogComponent,{
+            width:'400px',
+            data:{
+              title:"Task Finished!",
+              message:`Task"${task.title}" is done.Mark as done?`,
+            },
+          });
+          dialogRef.afterClosed().subscribe((result:boolean)=>{
+            const newStatus = result ? 'done':'missed';
+            this.taskService.updateTask(task.id,{status:newStatus}).subscribe({
+              next:()=>{
+                task.status=newStatus;
+                task.is_complete=true;
+                console.log(`Task"${task.title}" updated to ${newStatus}`);
+              },
+              error:err=>console.error('Failed to update task:',err),
+            });
+          });
+        }
+      });
+    },5000)
+  }
   separateTasks() {
     const todayDate = new Date().toDateString();
     const tomorrowDate = new Date(Date.now() + 86400000).toDateString(); // 24 hours in ms

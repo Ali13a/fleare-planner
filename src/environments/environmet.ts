@@ -1,3 +1,3 @@
 export const environment = {
-  path: `http://localhost:8001/`
+  path: `http://localhost:8000/`
 }

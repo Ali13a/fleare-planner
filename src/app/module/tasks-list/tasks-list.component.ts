@@ -113,7 +113,7 @@ export class TasksListComponent implements OnInit , OnDestroy{
   doneInprogress(){
     this.checkInProgressTask=setInterval(()=>{
       const now = new Date().getTime();
-      this.tasks.filter(task=>task.status === 'in"_progress' && !this.checkedInProgress.has(task.id)).forEach(task=>{
+      this.tasks.filter(task=>task.status === 'in_progress' && !this.checkedInProgress.has(task.id)).forEach(task=>{
         const endTime=new Date(task.due_date).getTime()+(task.Time_required || 60)*60000;
         if (now>=endTime){
           this.checkedInProgress.add(task.id);
@@ -129,8 +129,13 @@ export class TasksListComponent implements OnInit , OnDestroy{
             this.taskService.updateTask(task.id,{status:newStatus}).subscribe({
               next:()=>{
                 task.status=newStatus;
-                task.is_complete=true;
                 console.log(`Task"${task.title}" updated to ${newStatus}`);
+              },
+              error:err=>console.error('Failed to update task:',err),
+            });
+            this.taskService.updateTask(task.id,{is_complete:true}).subscribe({
+              next:()=>{
+                task.is_complete=true;
               },
               error:err=>console.error('Failed to update task:',err),
             });
